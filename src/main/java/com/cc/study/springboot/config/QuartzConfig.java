@@ -26,7 +26,7 @@ public class QuartzConfig {
     }
     @Bean
     public Trigger printTimeJobTrigger() {
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0/5 * * * * ?");
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 0 * * ?");
         return TriggerBuilder.newTrigger()
                 //关联上述的JobDetail
                 .forJob(printTimeJobDetail())

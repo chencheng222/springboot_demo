@@ -30,7 +30,7 @@ public class CustomWebMvcConfigurerAdapter implements WebMvcConfigurer {
      **/
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(customInterceptor).addPathPatterns("/**");
+        //registry.addInterceptor(customInterceptor).addPathPatterns("/**");
     }
 
     /**

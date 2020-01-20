@@ -11,16 +11,16 @@ import java.io.IOException;
  * @author chenc
  * @date 2019/11/21
  **/
-@WebFilter(urlPatterns = "/*")
 @Slf4j
+//@WebFilter(urlPatterns = "/*")
 public class WrapperFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("doFilter start.");
+//        log.info("doFilter start.");
 
-        CustomRequestWrapper customRequestWrapper = new CustomRequestWrapper((HttpServletRequest) servletRequest);
-        filterChain.doFilter(customRequestWrapper, servletResponse);
+        //CustomRequestWrapper customRequestWrapper = new CustomRequestWrapper((HttpServletRequest) servletRequest);
+        //filterChain.doFilter(customRequestWrapper, servletResponse);
 
-        log.info("doFilter end.");
+//        log.info("doFilter end.");
     }
 }
