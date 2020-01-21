@@ -2,8 +2,10 @@ package com.cc.study.springboot.config;
 
 import com.cc.study.springboot.interceptor.CustomInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.filter.FormContentFilter;
 import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
@@ -69,5 +71,15 @@ public class CustomWebMvcConfigurerAdapter implements WebMvcConfigurer {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 注册SpringBoot对于response的数据转换
         converters.add(new ConsumeHttpMessageConverter());
+    }
+
+    /**
+     * 配置允许put、delete请求方法
+     *
+     * @return
+     */
+    @Bean
+    public FormContentFilter httpPutFormContentFilter() {
+        return new FormContentFilter();
     }
 }
