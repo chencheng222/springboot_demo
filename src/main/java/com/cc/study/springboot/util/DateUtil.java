@@ -19,6 +19,9 @@ public class DateUtil {
     public static void main(String[] args) {
     }
 
+    private DateUtil() {
+    }
+
     /**
      * 当前系统时间（毫秒）
      *
