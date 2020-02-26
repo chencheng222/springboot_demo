@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @ServletComponentScan
-@EnableScheduling
 public class SpringbootDemoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
