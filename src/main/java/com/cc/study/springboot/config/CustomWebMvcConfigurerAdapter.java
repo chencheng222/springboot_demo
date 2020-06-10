@@ -14,7 +14,7 @@ import java.util.List;
  * @author chenc
  */
 @Configuration
-public class CustomWebMvcConfigurerAdapter implements WebMvcConfigurer {
+public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurationSupport {
 
     @Autowired
     private CustomInterceptor customInterceptor;
@@ -47,19 +47,12 @@ public class CustomWebMvcConfigurerAdapter implements WebMvcConfigurer {
     }
 
     /**
-     * 静态资源处理
-     **/
+     * 资源路径的配置
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-    }
-
-    /**
-     * 视图跳转控制器
-     **/
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        super.addResourceHandlers(registry);
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.cc.study.springboot.config;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpOutputMessage;
@@ -27,6 +29,8 @@ public class ConsumeHttpMessageConverter extends MappingJackson2HttpMessageConve
         ObjectMapper mapper = new ObjectMapper();
         String responseData = mapper.writeValueAsString(object);
 
+        JsonFactory factory = new JsonFactory();
+        JsonParser jsonParser = factory.createParser(responseData);
         // 防止二次加密
         if (JSONObject.parseObject(responseData).containsKey(BODY_KEY)) {
             outputMessage.getBody().write(responseData.getBytes());
