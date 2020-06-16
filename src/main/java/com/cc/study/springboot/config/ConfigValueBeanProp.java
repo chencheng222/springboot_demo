@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * 读取一些自定义的配置文件
+ * 若不使用@ConfigurationProperties(prefix = "XXX")
+ * 则需要在每个属性上声明@value(${xxx})
  *
  * @author chenc
  * @date 2019/12/24

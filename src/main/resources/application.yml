@@ -29,6 +29,18 @@ spring:
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
+  redis:
+    host: 10.211.55.3
+    port: 6379
+    database: 0
+    password:
+    timeout: 10s
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 5
+        max-wait: 30000ms
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
@@ -40,6 +52,6 @@ spring:
       max-file-size: 10MB
       max-request-size: 30MB
 server:
-  port: 8080
+  port: 8888
   servlet:
     context-path: /springbootDemo
