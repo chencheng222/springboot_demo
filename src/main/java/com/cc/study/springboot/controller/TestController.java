@@ -1,10 +1,12 @@
 package com.cc.study.springboot.controller;
 
+import cn.hutool.core.util.IdUtil;
+import com.cc.study.springboot.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author chenc
@@ -15,20 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-    @GetMapping("/get")
-    public String get(String id, String name, Integer age) throws Exception {
-        log.info("get -> id: {}", id);
-        log.info("get -> name: {}", name);
-        log.info("get -> age: {}", age);
+    @Autowired
+    private RedisTemplate redisTemplate;
 
-        return "TestController -> get";
+    @GetMapping("/get")
+    public Object get(String id) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        Object user = valueOperations.get(id);
+
+        return user;
     }
 
-    @GetMapping("/post")
-    public String post(String id, String name) throws Exception {
-        log.info("post -> id: {}", id);
-        log.info("post -> name: {}", name);
+    @PostMapping("/post")
+    public String post(User user) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
 
-        return "TestController -> post";
+        String uuid = IdUtil.fastSimpleUUID();
+        user.setId(uuid);
+
+        valueOperations.set(uuid, user);
+
+        return uuid;
     }
 }

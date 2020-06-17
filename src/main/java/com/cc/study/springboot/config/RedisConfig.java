@@ -11,7 +11,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * redis配置
+ * redis配置-key存储为string，value为json
  * 解决redis存储序列化问题
  *
  * @author chenc

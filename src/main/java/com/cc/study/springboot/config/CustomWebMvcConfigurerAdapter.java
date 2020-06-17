@@ -66,7 +66,7 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurationSupport {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 注册SpringBoot对于response的数据转换
-        converters.add(new ConsumeHttpMessageConverter());
+//        converters.add(new ConsumeHttpMessageConverter());
     }
 
     /**
