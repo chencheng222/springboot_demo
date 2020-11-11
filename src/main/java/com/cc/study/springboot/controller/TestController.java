@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @GetMapping("/get")
     public Object get(String id) {
-        ValueOperations valueOperations = redisTemplate.opsForValue();
+        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         Object user = valueOperations.get(id);
 
         return user;

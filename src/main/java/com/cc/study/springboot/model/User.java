@@ -1,7 +1,9 @@
 package com.cc.study.springboot.model;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -9,12 +11,14 @@ import java.io.Serializable;
  * @date 2020/06/17
  **/
 @Data
-public class User implements Serializable {
+@Entity
+@Table(name = "t_user")
+public class User extends BaseEntity {
 
-    private String id;
-
+    @Column
     private String name;
 
+    @Column
     private Integer age;
 
 }

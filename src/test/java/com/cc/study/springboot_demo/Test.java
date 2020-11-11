@@ -17,6 +17,10 @@ import java.util.Map;
  **/
 public class Test {
 
+    /** Netty epoll switch */
+    public static final String NETTY_EPOLL_SWITCH                    = "bolt.netty.epoll.switch";
+    public static final String NETTY_EPOLL_SWITCH_DEFAULT            = "true";
+
     @org.junit.Test
     public void jackSonTest() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -67,5 +71,11 @@ public class Test {
             }
         }
 
+    }
+
+    @org.junit.Test
+    public void test() {
+        String property = System.getProperty("java.version");
+        System.out.println(property);
     }
 }
