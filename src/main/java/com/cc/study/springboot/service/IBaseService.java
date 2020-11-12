@@ -1,7 +1,5 @@
 package com.cc.study.springboot.service;
 
-import com.cc.study.springboot.dao.BaseRepository;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,11 +9,11 @@ import java.util.List;
  **/
 public interface IBaseService<T, ID extends Serializable> {
 
-    List<T> findAll();
-
-    T getOne(ID var1);
+    List<T> findAll(T t);
 
     boolean save(T t);
+
+    boolean update(T t);
 
     boolean deleteById(ID id);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,17 +21,10 @@ public class BaseController<T, ID extends Serializable, S extends IBaseService<T
     private S service;
 
     @GetMapping("/basicFindAll")
-    public ResponseResult findAll() {
-        List<T> all = service.findAll();
+    public ResponseResult findAll(T t) {
+        List<T> all = service.findAll(t);
 
         return ResponseResult.builder().success().data(all);
-    }
-
-    @GetMapping("/basicGetOne")
-    public ResponseResult getOne(ID id) {
-        T one = service.getOne(id);
-
-        return ResponseResult.builder().success().data(one);
     }
 
     @DeleteMapping("/basicDeleteById")
@@ -43,6 +37,16 @@ public class BaseController<T, ID extends Serializable, S extends IBaseService<T
     @PostMapping("/basicSave")
     public ResponseResult save(T t) {
         service.save(t);
+
+        return ResponseResult.builder().success();
+    }
+
+    @PutMapping("/basicUpdate")
+    public ResponseResult update(T t) {
+        boolean update = service.update(t);
+        if (!update) {
+            return ResponseResult.builder().failure();
+        }
 
         return ResponseResult.builder().success();
     }
