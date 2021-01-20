@@ -1,16 +1,16 @@
 package com.cc.study.springboot.config;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
+import com.cc.study.springboot.util.SM4Utils;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * response数据加密
@@ -24,31 +24,35 @@ public class ConsumeHttpMessageConverter extends MappingJackson2HttpMessageConve
     private static final String BODY_KEY = "body";
 
     @Override
-    protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException {
         //使用Jackson的ObjectMapper将Java对象转换成Json String
         ObjectMapper mapper = new ObjectMapper();
-        String responseData = mapper.writeValueAsString(object);
+        String responseData = "";
 
-        JsonFactory factory = new JsonFactory();
-        JsonParser jsonParser = factory.createParser(responseData);
-        // 防止二次加密
-        if (JSONObject.parseObject(responseData).containsKey(BODY_KEY)) {
-            outputMessage.getBody().write(responseData.getBytes());
-            return;
+        if (object instanceof String) {
+            String result = (String) object;
+            Map<String, Object> res = mapper.readValue(result, new TypeReference<Map<String, Object>>() {
+            });
+            // 防止二次加密
+            if (res.containsKey(BODY_KEY)) {
+                outputMessage.getBody().write(result.getBytes());
+                return;
+            }
+            responseData = result;
+        } else {
+            responseData = mapper.writeValueAsString(object);
         }
 
         log.info("ConsumeHttpMessageConverter->responseData加密前:" + responseData);
         //加密
-        // SM4Utils sm4Utils = new SM4Utils();
-        String ecbData = "";
-        log.info("ConsumeHttpMessageConverter->responseData加密后:" + ecbData);
+        String ecbData = SM4Utils.encryptData_ECB(responseData);
 
         //输出
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(BODY_KEY, ecbData);
-        log.info("ConsumeHttpMessageConverter->response:" + jsonObject);
+        ObjectNode jsonNodes = mapper.createObjectNode();
+        jsonNodes.put(BODY_KEY, ecbData);
+        log.info("ConsumeHttpMessageConverter->response:" + jsonNodes.toString());
 
-        outputMessage.getBody().write(jsonObject.toJSONString().getBytes());
+        outputMessage.getBody().write(jsonNodes.toString().getBytes());
     }
 
 }

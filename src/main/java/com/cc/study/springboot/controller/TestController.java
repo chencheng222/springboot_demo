@@ -1,11 +1,9 @@
 package com.cc.study.springboot.controller;
 
-import cn.hutool.core.util.IdUtil;
-import com.cc.study.springboot.model.User;
+import com.cc.study.springboot.common.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -13,30 +11,24 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019/11/21
  **/
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api")
 @Slf4j
 public class TestController {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @GetMapping("/get")
-    public Object get(String id) {
-        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-        Object user = valueOperations.get(id);
+    @GetMapping("/dailyPaper/showContent")
+    public ResponseResult get(String dailyPaperId) {
+        log.info("dailyPaperId: {}", dailyPaperId);
 
-        return user;
+        return ResponseResult.builder().success();
     }
 
-    @PostMapping("/post")
-    public String post(User user) {
-        ValueOperations valueOperations = redisTemplate.opsForValue();
+    @PostMapping("/sms/sendMsg")
+    public ResponseResult post(String sentTime, String sentText, String toUserIds) {
+        log.info("sentTime:{}, sentText:{}, toUserIds:{}", sentTime, sentText, toUserIds);
 
-        String uuid = IdUtil.fastSimpleUUID();
-        user.setId(uuid);
-
-        valueOperations.set(uuid, user);
-
-        return uuid;
+        return ResponseResult.builder().success();
     }
 }
